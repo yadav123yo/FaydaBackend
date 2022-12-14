@@ -9,19 +9,19 @@ const authMiddleware = require('../Middleware/authMiddleware');
 app.get('/', async (req, res) => {
 
     try {
-        let { category,price,numReviews, sort,orderBy ,limit,page } = req.query;
+        let { category,offer_price,original_price, sort,orderBy ,limit,page } = req.query;
      const query = {};
         if (category) {
             query.category = category;
         }
        
-        if (price) {
-            let [min, max] = price.split(',');
-            query.price = { $gte: min, $lte: max };
+        if (offer_price) {
+            let [min, max] = offer_price.split(',');
+            query.offer_price = { $gte: min, $lte: max };
             
         }
-        if (numReviews) {
-            query.stars = +numReviews;
+        if (original_price) {
+            query.stars = +original_price;
         }
         if(!limit){
             limit = 20;
@@ -59,8 +59,8 @@ app.post('/',authMiddleware, async (req, res) => {
     
 
     try {
-    const { imageUrl, brand, name, stars, numReviews, price, category, type } = req.body;
-    const product = await Product.create({ imageUrl, brand, name, stars, numReviews, price, category, type });
+    const { image, brand, title, original_price, offer_price,  category, type,discount } = req.body;
+    const product = await Product.create({image, brand, title, original_price, offer_price,  category, type,discount });
 
     return res.status(201).send({ product });
     } catch (error) {
@@ -72,8 +72,8 @@ app.put('/:id',authMiddleware, async (req, res) => {
    
     try {
     const { id } = req.params;
-    const { imageUrl, brand, name, stars, numReviews, price, category, type } = req.body;
-    const product = await Product.findByIdAndUpdate(id, { imageUrl, brand, name, stars, numReviews, price, category, type }, { new: true });
+    const { image, brand, title, original_price, offer_price,  category, type,discount} = req.body;
+    const product = await Product.findByIdAndUpdate(id, { image, brand, title, original_price, offer_price,  category, type,discount}, { new: true });
 
     return res.status(200).send({ product });
     } catch (error) {
