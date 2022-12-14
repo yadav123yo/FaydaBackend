@@ -21,7 +21,7 @@ app.get('/', async (req, res) => {
             
         }
         if (original_price) {
-            query.stars = +original_price;
+            query.original_price = +original_price;
         }
         if(!limit){
             limit = 20;
