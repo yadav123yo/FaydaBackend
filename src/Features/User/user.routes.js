@@ -39,7 +39,7 @@ app.post('/login', async (req, res) => {
             return res.status(400).send({ message: 'Password is incorrect' });
         }
 
-        const token = jwt.sign({ _id: user._id,name:user.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ _id: user._id,name:user.name }, process.env.JWT_SECRET, { expiresIn: '7 days' });
         return res.status(200).send({ message: 'Login successful' , token,user : user.name});
     } catch (error) {
         return res.status(404).send({ message : 'Something went wrong' });
